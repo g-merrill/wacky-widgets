@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wacky Widgets</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Wacky Widgets</h1>
+    {% if widgets %}
+    <table>
+        <thead>
+            <tr>
+                <th class="align-left">Description</th>
+                <th class="middle">Quantity</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for widget in widgets %}
+            <tr class="data-tr">
+                <td>{{ widget.description }}</td>
+                <td class="middle">{{ widget.quantity }}</td>
+                <td class="del-td-ctnr">
+                    <form class="del-form-ctnr" action="/delete/{{ widget.id }}" method="GET">
+                        {% csrf_token %}
+                        <input class="del-btn" type="submit" value="X">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr class="data-tr">
+                <td><b>Total Quantity</b></td>
+                <td class="middle"><b>{{ total }}</b></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    {% else %}
+    <h2>No Widgets Exist</h2>
+    {% endif %}
+<hr>
+<h3>Add Widget</h3>
+<form class="add-widget-form" action="" method="POST">
+    {% csrf_token %}
+    <div class="input-ctnr">
+        <label for="description">Description:</label>
+        <input class="input" id="description" name="description" type="text">
+    </div>
+    <div class="input-ctnr">
+        <label for="quantity">Quantity:</label>
+        <input class="input" id="quantity" name="quantity" type="number">
+    </div>
+    <input class="submit-btn" type="submit" value="ADD WIDGET">
+</form>
+</body>
+</html>
